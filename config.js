@@ -2,7 +2,7 @@
 window.VQ_CONFIG = {
   // 1) Your n8n address. It must start with https:// and end with /webhook.
   //    TODAY this is still the temporary tunnel. At the server switch-over it becomes https://api.sikiaiq.com/webhook
-  webhookBase: 'https://whose-thoroughly-fields-fits.trycloudflare.com/webhook',
+   webhookBase: 'https://api.sikiaiq.com/webhook',
 
   // 2) Shown to customers in Terms & Privacy and on receipts (leave '' until you have them).
   supportEmail: '',
