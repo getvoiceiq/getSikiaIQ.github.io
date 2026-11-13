@@ -1,15 +1,15 @@
-// VoiceIQ settings. Edit ONLY these lines, never index.html.
+// SikiaIQ settings. Edit ONLY these lines, never index.html.
 window.VQ_CONFIG = {
-  // 1) Your n8n address. It must start with https:// and end with /webhook. Changes whenever the tunnel changes.
+  // 1) Your n8n address. It must start with https:// and end with /webhook.
+  //    TODAY this is still the temporary tunnel. At the server switch-over it becomes https://api.sikiaiq.com/webhook
   webhookBase: 'https://whose-thoroughly-fields-fits.trycloudflare.com/webhook',
 
-  // 2) Shown to customers in Terms & Privacy and on receipts (leave '' until you have them;
-  //    Settings -> Support is used as the fallback).
+  // 2) Shown to customers in Terms & Privacy and on receipts (leave '' until you have them).
   supportEmail: '',
-  businessName: 'VoiceIQ',
+  businessName: 'SikiaIQ',
   registeredAddress: '',
-  kraPin: '',                 // optional: printed on receipts if you set it (ask your accountant)
+  kraPin: '',
 
-  // 3) Set to true AFTER a Kenyan lawyer has reviewed the Terms & Privacy page (this hides the admin-only draft box).
+  // 3) Set to true AFTER a Kenyan lawyer has reviewed the Terms & Privacy page.
   policiesReviewed: false
 };
