@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<meta name="referrer" content="no-referrer">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-8wFF59gWd4KEJjPY9JruQS2diKkyPntpd7Blj/ylaJc='; style-src 'unsafe-inline'; connect-src https://xjfbytiyzpeijbpnfhuc.supabase.co; img-src https://xjfbytiyzpeijbpnfhuc.supabase.co; base-uri 'none'; form-action 'none'">
+<title>Results</title>
+<style>
+:root{--bg:#F6F3EC;--card:#fff;--text:#14201C;--dim:#5D6B66;--line:#DDD8CB;--accent:#0B6B54;--soft:#EAF3EF}
+@media (prefers-color-scheme:dark){:root{--bg:#050D1A;--card:#111C30;--text:#E7ECF5;--dim:#8C9AB4;--line:#22304A;--accent:#00D4FF;--soft:#0A2E3D}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:16px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+main{max-width:760px;margin:0 auto;padding:22px 16px 48px}
+.org{font-size:13px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--dim)}
+h1{font-size:26px;line-height:1.2;margin:4px 0 6px}.sub{color:var(--dim);margin:0 0 16px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px;margin:0 0 14px;break-inside:avoid}
+.sec{font-weight:800;margin:0 0 8px}.big{font-size:34px;font-weight:800;line-height:1.1}.dim{color:var(--dim);font-size:13.5px}
+.row{display:flex;justify-content:space-between;gap:10px}.bar{height:10px;background:var(--line);border-radius:99px;overflow:hidden;margin:3px 0 10px}.bar i{display:block;height:100%;background:var(--accent)}
+.thumb{width:44px;height:44px;object-fit:cover;border-radius:6px;vertical-align:middle;margin-right:8px}
+blockquote{margin:6px 0;padding:6px 12px;border-left:3px solid var(--line);background:var(--soft);border-radius:0 8px 8px 0;font-size:14.5px}
+details summary{cursor:pointer;color:var(--accent);font-weight:700;font-size:14px}
+button{font:inherit;font-weight:700;border:1px solid var(--line);background:var(--card);color:var(--text);border-radius:10px;padding:8px 14px;cursor:pointer}
+.top{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;flex-wrap:wrap}.foot{color:var(--dim);font-size:12.5px;margin-top:20px}
+@media print{body{background:#fff;color:#000}button{display:none}.card{border-color:#bbb}}
+</style>
+</head>
+<body>
+<main id="app"><p class="dim">Loading results…</p></main>
+<script>
+(function () {
+  'use strict';
+  var SUPA = 'https://xjfbytiyzpeijbpnfhuc.supabase.co', KEY = 'sb_publishable_aOnmFvGYeevP6fVd4qxFZw_K6tcC7MC', app = document.getElementById('app');
+  var TYPE = { poll: 'Poll', survey: 'Survey', suggestion: 'Suggestion box', question: 'Public questions', registration: 'Registration' };
+  function el(t, a, kids) { var n = document.createElement(t); Object.keys(a || {}).forEach(function (k) { if (k === 'text') n.textContent = a[k]; else n.setAttribute(k, a[k]); }); (kids || []).forEach(function (c) { if (c) n.appendChild(c); }); return n; }
+  function tx(s) { return document.createTextNode(s); }
+  function arr(x) { return Array.isArray(x) ? x : []; }
+  function imgOk(u) { return typeof u === 'string' && u.indexOf(SUPA + '/storage/v1/object/public/pe-images/') === 0; }
+  function msg(t) { app.textContent = ''; app.appendChild(el('p', { class: 'dim', text: t })); }
+  function bars(items, total) {
+    var f = document.createDocumentFragment();
+    items.forEach(function (o) { var p = total ? Math.round(o.n / total * 100) : 0; var lab = el('span', {}, [o.img && imgOk(o.img) ? el('img', { class: 'thumb', src: o.img, alt: '' }) : null, tx(o.label)]);
+      f.appendChild(el('div', { class: 'row' }, [lab, el('b', { text: p + '% · ' + o.n })])); f.appendChild(el('div', { class: 'bar' }, [el('i', { style: 'width:' + p + '%' })]));
+      if (o.why && o.why.length) { var d = el('details', {}, [el('summary', { text: 'Why people chose this' })]); o.why.forEach(function (w) { d.appendChild(el('blockquote', { text: '“' + w + '”' })); }); f.appendChild(d); } });
+    return f;
+  }
+  function card(title, nodes) { var c = el('div', { class: 'card' }, [el('div', { class: 'sec', text: title })]); nodes.forEach(function (n) { if (n) c.appendChild(n); }); app.appendChild(c); return c; }
+  function show(D) {
+    var R = D.results || {}, Q = arr(D.questions); document.title = D.title + ' – results'; app.textContent = '';
+    app.appendChild(el('div', { class: 'top' }, [el('div', {}, [el('div', { class: 'org', text: [D.client, D.org_label].filter(Boolean).join(' · ') || 'Results' }), el('h1', { text: D.title }), el('p', { class: 'sub', text: (TYPE[D.type] || D.type) + ' · ' + (D.status === 'active' ? 'Open' : D.status === 'paused' ? 'Paused' : 'Closed') })]), (function () { var b = el('button', { type: 'button', text: 'Print / save as PDF' }); b.addEventListener('click', function () { window.print(); }); return b; })()]));
+    card(D.type === 'poll' ? 'Total votes' : D.type === 'registration' ? 'Registrations' : 'Responses', [el('div', { class: 'big', text: String(R.total || 0) })]);
+    if (D.type === 'poll' && R.poll) card('Votes per option', [bars(arr(R.poll.options).map(function (o) { var q = Q.filter(function (x) { return x.id === o.id; })[0] || {}; return { label: o.text, n: o.votes, img: q.img, why: (R.reasons || {})[o.id] }; }), R.poll.total)]);
+    arr(R.questions).forEach(function (q) {
+      if (q.counts) card(q.text, [bars(q.counts.map(function (c) { return { label: c.option, n: c.n }; }), q.type === 'multi' ? R.total : q.counts.reduce(function (a, c) { return a + c.n; }, 0))]);
+      else if (q.type === 'rating') card(q.text, [q.n ? el('div', {}, [el('span', { class: 'big', text: Number(q.avg).toFixed(1) }), tx(' / 5 from ' + q.n + ' ratings')]) : el('p', { class: 'dim', text: 'No ratings yet.' }), q.n ? bars([5, 4, 3, 2, 1].map(function (k) { return { label: k + ' star' + (k > 1 ? 's' : ''), n: Number((q.dist || {})[k] || 0) }; }), q.n) : null]);
+      else card(q.text, [el('p', { class: 'dim', text: q.n + ' written answers. A few examples:' })].concat(arr(q.samples).map(function (s) { return el('blockquote', { text: '“' + s + '”' }); })));
+    });
+    var cats = Object.keys(R.by_category || {}); if (D.type !== 'poll' && D.type !== 'survey' && cats.length) card(D.type === 'question' ? 'Topics' : 'Categories', [bars(cats.map(function (k) { return { label: k, n: R.by_category[k] }; }).sort(function (a, b) { return b.n - a.n; }), R.total)]);
+    var bc = arr(R.by_county); if (bc.length) { var ct = bc.reduce(function (a, c) { return a + c.n; }, 0); var c = card('Where responses come from', [bars(bc.map(function (x) { return { label: x.county + (x.top ? ' — mostly “' + x.top.text + '” (' + x.top.n + ')' : ''), n: x.n }; }), ct), el('p', { class: 'dim', text: ct + ' responses gave a county. Counts are small in some places, so read them as a guide.' })]); var ba = arr(R.by_area); if (ba.length) { var d = el('details', {}, [el('summary', { text: 'Wards and areas people typed' })]); ba.forEach(function (a) { d.appendChild(el('div', { class: 'row' }, [el('span', { text: a.area + ' · ' + a.county }), el('b', { text: String(a.n) })])); }); c.appendChild(d); } }
+    app.appendChild(el('p', { class: 'foot', text: 'These results show the views of the people who chose to take part. They are not a scientific sample and should not be read as the opinion of everyone. Updated ' + new Date(D.generated_at).toLocaleString() + '. Names and contact details are never shown on this page.' }));
+  }
+  var t = (location.search.match(/[?&]t=([A-Za-z0-9_-]{20,64})/) || [])[1];
+  if (!t) return msg('This link is not complete. Please ask for a new one.');
+  fetch(SUPA + '/rest/v1/rpc/pe_client_view', { method: 'POST', headers: { apikey: KEY, Authorization: 'Bearer ' + KEY, 'Content-Type': 'application/json' }, body: JSON.stringify({ p_token: t }) })
+    .then(function (r) { return r.ok ? r.json() : Promise.reject(); }).then(function (D) { if (!D) return msg('This link is not active any more. Please ask for a new one.'); show(D); }).catch(function () { msg('We could not load these results. Please try again in a moment.'); });
+})();
+</script>
+</body>
+</html>
